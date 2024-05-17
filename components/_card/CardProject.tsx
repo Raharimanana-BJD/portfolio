@@ -25,7 +25,7 @@ export default function CardProject({
   return (
     <motion.div
       ref={ref}
-      className="bg-background p-4 rounded-lg flex-1 group"
+      className="bg-background/25 p-4 rounded-lg flex-1 group"
       style={{ opacity, translateY }}
     >
       <div className="relative overflow-hidden min-h-[8.5625rem] max-w-[15rem] rounded-md">

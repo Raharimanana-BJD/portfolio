@@ -33,21 +33,23 @@ export default function About() {
         <HeadingMedium>About Me</HeadingMedium>
       </motion.div>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        Jokester began sneaking into the castle in the middle of the night and{" "}
-        <a
-          href="#"
-          className="font-medium text-primary underline underline-offset-4"
-        >
-          a brilliant plan
-        </a>
-        leaving jokes all over the place: under the king's pillow, in his soup,
-        even in the royal toilet. The king was furious, but he couldn't seem to
-        stop Jokester.
+        Passionate about animations and new technologies, I am RAHARIMANANA
+        Brayann, a frontend developer and UX/UI designer dedicated to creating
+        engaging and innovative user experiences. My expertise lies at the
+        intersection of aesthetic design and technical performance, where every
+        project becomes an opportunity to blend creativity and efficiency.
       </p>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        And then, one day, the people of the kingdom discovered that the jokes
-        left by Jokester were so funny that they couldn't help but laugh. And
-        once they started laughing, they couldn't stop.
+        Since the beginning of my career, I have always been fascinated by how
+        design and technology can transform the user experience. With a solid
+        foundation in{" "}
+        <a href="#" className="font-medium text-primary underline underline-offset-4" >frontend</a>{" "}
+        development, I have acquired extensive skills in HTML, CSS, JavaScript,
+        and various modern{" "}
+        <a href="#" className="font-medium text-primary underline underline-offset-4" > frameworks </a>
+        . My experience in UX/UI design has allowed me to master design tools
+        like Sketch, Figma, and Adobe XD, while adopting a user-centered
+        approach for each project.
       </p>
     </motion.section>
   );
