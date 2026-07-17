@@ -1,0 +1,42 @@
+---
+title: "Migrating From Next.js to TanStack Start"
+description: "The full story of moving UnivPass off Next.js onto TanStack Start, including routing, data loading, and the gotchas nobody warns you about."
+date: 2026-05-18
+published: true
+category: ["migration", "tanstack", "devops"]
+---
+
+UnivPass started on Next.js because it was the safe default. A few months in, the App Router's server/client boundary kept getting in the way of how I wanted to structure data loading. So I moved.
+
+## The routing rewrite
+
+Next.js's file-based router and TanStack Router's type-safe router look similar on the surface but behave very differently under the hood. Every route needed a loader function instead of relying on Server Components:
+
+```ts
+export const Route = createFileRoute("/dashboard/$id")({
+  loader: async ({ params }) => getDashboard(params.id),
+  component: DashboardPage,
+});
+```
+
+The upside: route params and loader return types are fully inferred, no more `any` sneaking into `params`.
+
+## Data fetching without RSC
+
+Losing Server Components meant rethinking how data reaches the page. TanStack Start's loaders run on the server during SSR and hydrate cleanly on the client, so the mental model ended up closer to Remix than to Next.js.
+
+## Auth was the hard part
+
+Better Auth's Next.js adapter assumes App Router conventions that don't exist in TanStack Start. I had to write a thin server function wrapper around the auth handler to bridge the two:
+
+```ts
+export const authHandler = createServerFn({ method: "POST" }).handler(
+  async ({ request }) => auth.handler(request),
+);
+```
+
+That's next on the list to fully iron out.
+
+## Was it worth it
+
+So far, yes. Build times dropped, and the loader-based data model is easier to reason about than the RSC boundary ever was. The migration isn't finished, but the hardest parts — routing and initial auth wiring — are behind me.

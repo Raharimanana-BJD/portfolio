@@ -1,0 +1,40 @@
+---
+title: "Why I Chose a Manifest-First Queue Design"
+description: "Why a manifest-as-source-of-truth architecture beat a decorator-based approach for a Node.js job queue, and what tradeoffs came with it."
+date: 2026-06-08
+published: true
+category: ["architecture", "backend"]
+---
+
+Before writing a single line of the queue's core, I had two candidate designs: decorators, or a manifest. I picked the manifest. Here's why.
+
+## Option A: decorators
+
+```ts
+@Job({ retries: 3 })
+class SendEmailJob {
+  async handle(payload: EmailPayload) {
+    // ...
+  }
+}
+```
+
+Decorators feel elegant, but they scatter configuration across the codebase. Finding every job type means grepping for `@Job`, and there's no single place to answer "what jobs exist in this system?"
+
+## Option B: manifest as source of truth
+
+```ts
+export const manifest = defineManifest({
+  "email:send": { handler: sendEmailHandler, retries: 3 },
+});
+```
+
+One file, one source of truth. The `Registry` validates every job's GCID against this manifest at boot, so a typo in a job name fails immediately instead of silently vanishing into a dead queue.
+
+## The tradeoff
+
+Manifests don't scale infinitely well to hundreds of job types in one file — at some point you'd want to split it into domain-specific sub-manifests and merge them. That's a bridge I haven't had to cross yet, but the escape hatch is there if I need it.
+
+## Verdict
+
+For a small-to-medium job surface, explicit beats implicit. I'd rather scroll one file than grep a whole repo to understand what my system can do.

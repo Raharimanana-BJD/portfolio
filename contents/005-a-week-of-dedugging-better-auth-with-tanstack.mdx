@@ -1,0 +1,37 @@
+---
+title: "A Week of Debugging Better Auth With TanStack"
+description: "A candid log of the bugs, dead ends, and eventual breakthroughs while wiring Better Auth into a TanStack Start application."
+date: 2026-06-14
+published: false
+category: ["devlog", "auth"]
+---
+
+Keeping this one as a draft until I actually finish the integration, but writing it down while it's fresh.
+
+## Monday
+
+Wired up the Better Auth handler as a TanStack Start server function. Cookies weren't being set. Spent two hours assuming it was a CORS issue. It wasn't.
+
+## Tuesday
+
+Turns out the response from `auth.handler()` needs to be returned as-is, headers included, not re-wrapped in a new `Response` object. TanStack Start's server functions do some header merging that silently dropped `Set-Cookie` when I rebuilt the response manually.
+
+```ts
+export const authHandler = createServerFn({ method: "POST" }).handler(
+  async ({ request }) => auth.handler(request), // don't rebuild this
+);
+```
+
+## Wednesday
+
+Session persistence worked locally but not after a full page reload. The client-side session hook was reading from a cache that never got invalidated on navigation. Fixed by hooking into the router's `beforeLoad`.
+
+## Thursday
+
+Docker/Dokploy deploy started failing because the auth secret wasn't being picked up at build time vs runtime. Moved it to a runtime-only env var instead of baking it into the image.
+
+## Friday
+
+Everything works end to end on staging. Not publishing this yet — want to run it against real traffic for a few days before calling it done.
+
+![Schéma](/cover.jpg)

@@ -1,0 +1,63 @@
+---
+title: "Building a PostgreSQL Job Queue From Scratch"
+description: "A deep dive into designing an agnostic, PostgreSQL-backed job queue with manifest-driven workers and built-in OpenTelemetry support."
+date: 2026-06-02
+published: true
+category: ["backend", "architecture", "postgresql"]
+---
+
+Most job queue libraries force you into Redis. I wanted something that could run entirely on the Postgres instance I already have, with no extra infrastructure to babysit.
+
+## Why Postgres and not Redis
+
+Postgres gives you `SELECT ... FOR UPDATE SKIP LOCKED`, which is basically a free distributed lock primitive. Combined with `LISTEN`/`NOTIFY`, you get near real-time job pickup without polling every second.
+
+```sql
+SELECT id, payload
+FROM jobs
+WHERE status = 'pending'
+ORDER BY created_at
+FOR UPDATE SKIP LOCKED
+LIMIT 1;
+```
+
+Each worker grabs a row, locks it, processes it, and updates the status. No two workers ever pick up the same job.
+
+## The manifest as source of truth
+
+Instead of scattering job definitions across the codebase, every job type is declared once in a manifest:
+
+```ts
+export const manifest = defineManifest({
+  "email:send": {
+    handler: sendEmailHandler,
+    retries: 3,
+    timeout: 30_000,
+  },
+  "report:generate": {
+    handler: generateReportHandler,
+    retries: 1,
+    timeout: 120_000,
+  },
+});
+```
+
+The `Registry` loads this manifest at boot and validates every GCID (Globally Consistent Identifier) against it before a `Worker` is allowed to process anything. If a job type isn't declared, it's rejected outright — no silent failures from typos.
+
+## Telemetry as a first-class citizen
+
+Every state transition emits an event on an internal agnostic event bus, which can be piped straight into OpenTelemetry:
+
+```ts
+bus.on("job:completed", (event) => {
+  tracer.startSpan("job.process", {
+    attributes: { "job.id": event.jobId, "job.type": event.type },
+  });
+});
+```
+
+That means you get distributed tracing across your queue without writing a single line of vendor-specific code.
+
+## What's next
+
+The `Registry`/manifest loader is done. The `Worker` implementation — the part that actually claims and executes jobs — is next on the list.

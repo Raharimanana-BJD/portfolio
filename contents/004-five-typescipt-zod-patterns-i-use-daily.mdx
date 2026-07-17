@@ -1,0 +1,59 @@
+---
+title: "Five TypeScript Zod Patterns I Use Daily"
+description: "Five small but powerful Zod and TypeScript patterns that clean up validation code across API routes, forms, and background jobs."
+date: 2026-06-11
+published: true
+category: ["programming", "typescript"]
+---
+
+Short list, no fluff. These are the five Zod patterns that show up in almost every file of UnivPass.
+
+## 1. `z.coerce` for anything coming from strings
+
+Query params, form data, frontmatter — they're all strings until you coerce them.
+
+```ts
+const schema = z.object({ page: z.coerce.number().default(1) });
+```
+
+## 2. `safeParse` over `parse` at every boundary
+
+Never let a validation error throw uncaught. `safeParse` forces you to handle both branches explicitly.
+
+```ts
+const result = schema.safeParse(input);
+if (!result.success) return handleError(result.error);
+```
+
+## 3. Deriving types instead of writing them twice
+
+```ts
+const userSchema = z.object({ name: z.string(), email: z.string().email() });
+type User = z.infer<typeof userSchema>;
+```
+
+One schema, one type, zero drift between them.
+
+## 4. `.transform()` for normalization
+
+```ts
+const emailSchema = z
+  .string()
+  .email()
+  .transform((v) => v.toLowerCase());
+```
+
+Validation and normalization in the same step — no separate `.toLowerCase()` call scattered elsewhere.
+
+## 5. Reusable sub-schemas
+
+```ts
+const paginationSchema = z.object({
+  page: z.coerce.number().default(1),
+  perPage: z.coerce.number().default(10),
+});
+
+const querySchema = paginationSchema.extend({ q: z.string().default("") });
+```
+
+Compose instead of repeating. Every list endpoint shares the same pagination shape without copy-pasting it.
