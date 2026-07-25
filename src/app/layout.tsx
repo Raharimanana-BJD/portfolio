@@ -29,7 +29,7 @@ export default function RootLayout({
       )}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="bg-background min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -40,6 +40,11 @@ export default function RootLayout({
             <TooltipProvider>
               <Header />
               {children}
+              <footer className="py-6">
+                <p className="text-center text-muted-foreground text-sm">
+                  &copy; Braharim
+                </p>
+              </footer>
             </TooltipProvider>
             <Toaster richColors position="bottom-right" />
           </NuqsAdapter>

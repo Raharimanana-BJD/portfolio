@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     <div className="mx-auto max-w-3xl px-6 py-12">
       <Link
         href="/blog"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        className="inline-flex items-center gap-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
         Back to blog
@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <article className="mt-8">
         <header className="mb-10">
-          <h1 className="text-4xl font-bold leading-tight text-foreground">
+          <h1 className="font-bold text-4xl text-foreground leading-tight">
             {post.title}
           </h1>
           <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">

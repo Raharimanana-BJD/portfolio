@@ -24,7 +24,7 @@ export default function HeroPage({
   name = "Brayann RAHARIMANANA",
   title = "Développeur Web Full Stack",
   location = "Toliara, Madagascar",
-  bio = "Développeur Full Stack avec 5 ans d'expérience dans la conception d'applications web modernes, performantes et scalables. Du frontend au déploiement, je maîtrise tout le cycle de vie d'un projet en plaçant l'expérience utilisateur au centre de mes priorités. Actuellement en Master 1 Informatique Générale à l'E.N.I de Fianarantsoa (centre de Toliara).",
+  bio = "Développeur Full Stack avec plus de 5 ans d'expérience dans la conception d'applications web modernes, performantes et scalables. Du frontend au déploiement, je maîtrise tout le cycle de vie d'un projet en plaçant l'expérience utilisateur au centre de mes priorités.",
   status = "Disponible pour de nouvelles opportunités",
   skills = [
     "TypeScript",
@@ -44,10 +44,10 @@ export default function HeroPage({
   return (
     <section>
       {/* Conteneur de la bannière avec la couleur de fond orange/marron */}
-      <div className="relative h-48 md:h-64 w-full overflow-hidden bg-linear-to-tl from-white to-black/25 dark:to-black">
+      <div className="relative h-54 md:h-64 w-full overflow-hidden bg-linear-to-tl from-white to-black/25 dark:to-black">
         {/* L'image de couverture est placée de manière absolue tout à droite */}
         {coverImage && (
-          <div className="relative left-1/2 top-0 h-full aspect-208/200">
+          <div className="relative left-1/2 max-sm:left-1/4 top-0 h-full aspect-208/200">
             <Image
               src={coverImage}
               alt="Cover image"
@@ -63,17 +63,19 @@ export default function HeroPage({
         {/* Badge dynamique "Available for work" */}
         <Badge
           variant="outline"
-          className="absolute max-md:hidden border-foreground top-4 left-6 md:left-12 z-20 "
+          className="absolute border-foreground top-4 left-6 md:left-12 z-20 "
         >
-          <Check className="w-3 h-3 mr-1" /> {status}
+          <Check className="w-3 h-3 mr-1" />
+          <span className="hidden md:block">{status}</span>
+          <span className="block md:hidden">Disponible</span>
         </Badge>
       </div>
 
       {/* Reste du profil */}
-      <div className="pl-6 md:pl-12">
+      <div className="px-0 pt-20 md:px-6">
         <div className="flex flex-col md:flex-row md:items-end -mt-16 mb-6 relative z-10 gap-4">
           {/* Avatar circulaire avec contour épais */}
-          <div className="size-32 overflow-hidden rounded-full border-4 border-border bg-accent shadow-xl relative">
+          <div className=" hidden size-32 overflow-hidden rounded-full border-4 border-border bg-accent shadow-xl relative">
             {profileImage ? (
               <Image
                 src={profileImage}
