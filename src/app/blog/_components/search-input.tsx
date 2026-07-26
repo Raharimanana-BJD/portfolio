@@ -1,10 +1,8 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Search, SearchIcon } from "lucide-react";
-import { useQueryStates, parseAsString, parseAsInteger, debounce } from "nuqs";
+import { SearchIcon } from "lucide-react";
+import { debounce, parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { useTransition } from "react";
-import { cn } from "@/lib/utils";
 import {
   InputGroup,
   InputGroupAddon,
@@ -13,7 +11,7 @@ import {
 import { Kbd } from "@/components/ui/kbd";
 
 export function SearchInput() {
-  const [isPending, startTransition] = useTransition();
+  const [_isPending, startTransition] = useTransition();
   const [{ q }, setParams] = useQueryStates(
     { q: parseAsString.withDefault(""), page: parseAsInteger.withDefault(1) },
     { shallow: false, startTransition, limitUrlUpdates: debounce(300) },

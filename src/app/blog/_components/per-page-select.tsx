@@ -1,5 +1,8 @@
 "use client";
 
+import { Rows3 } from "lucide-react";
+import { parseAsInteger, useQueryStates } from "nuqs";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,9 +11,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Rows3 } from "lucide-react";
-import { useQueryStates, parseAsInteger } from "nuqs";
-import { useTransition } from "react";
 
 const OPTIONS = [5, 10, 20];
 

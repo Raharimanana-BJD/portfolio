@@ -1,18 +1,18 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import rehypeShiki from "@shikijs/rehype";
 import {
   transformerNotationHighlight,
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, ArrowLeft } from "lucide-react";
-import { getPostBySlug, getPosts, getRecentPosts } from "@/lib/posts";
-import { Pre } from "@/components/mdx/pre";
-import { MdxImage } from "@/components/mdx/mdx-image";
+import { ArrowLeft, Calendar } from "lucide-react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import type { PluggableList } from "unified";
+import { MdxImage } from "@/components/mdx/mdx-image";
+import { Pre } from "@/components/mdx/pre";
+import { Badge } from "@/components/ui/badge";
+import { getPostBySlug, getPosts, getRecentPosts } from "@/lib/posts";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

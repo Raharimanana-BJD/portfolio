@@ -1,14 +1,14 @@
-import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
 import Link from "next/link";
 import type { SearchParams } from "nuqs/server";
+import { Badge } from "@/components/ui/badge";
 
 import { getPosts } from "@/lib/posts";
 import { searchParamsCache } from "@/lib/search-params";
-import { SearchInput } from "./_components/search-input";
 import { CategoryFilter } from "./_components/category-filter";
 import { PerPageSelect } from "./_components/per-page-select";
 import { PostsPagination } from "./_components/posts-pagination";
+import { SearchInput } from "./_components/search-input";
 
 interface PostCardProps {
   slug: string;

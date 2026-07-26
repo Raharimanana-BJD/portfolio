@@ -1,8 +1,8 @@
 import {
   createSearchParamsCache,
-  parseAsString,
   parseAsArrayOf,
   parseAsInteger,
+  parseAsString,
 } from "nuqs/server";
 
 export const postsSearchParams = {

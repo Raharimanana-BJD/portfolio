@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type ComponentProps, type MouseEvent } from "react";
 import { CheckIcon, CopyIcon } from "lucide-react";
+import { type ComponentProps, type MouseEvent, useState } from "react";
 
 export function Pre({ children, ...props }: ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false);

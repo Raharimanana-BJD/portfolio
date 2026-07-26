@@ -1,7 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Award,
   Briefcase,
@@ -18,9 +16,11 @@ import {
   Phone,
   Square,
 } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { CoverImage } from "../../public";
+import GitHubIcon from "@/components/icon/github-icon";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import GitHubIcon from "@/components/icon/github-icon";
+import { CoverImage } from "../../public";
 
 /* -------------------------------------------------------------------------- */
 /*  Types                                                                     */

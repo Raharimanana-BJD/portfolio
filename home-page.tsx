@@ -1,5 +1,3 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Award,
   Calendar,
@@ -11,9 +9,10 @@ import {
   MapPin,
   Share2,
 } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { CoverImage, ProfileImage } from "./public";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -21,6 +20,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CoverImage, ProfileImage } from "./public";
 
 interface HeroPageProps {
   profileImage?: string | StaticImageData;

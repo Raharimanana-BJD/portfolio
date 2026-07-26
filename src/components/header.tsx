@@ -1,9 +1,9 @@
 "use client";
-import { Button } from "./ui/button";
-import { ThemeToggle } from "./theme-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GitHubIcon from "./icon/github-icon";
+import { ThemeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
 
 export const Header = () => {
   const pathname = usePathname();

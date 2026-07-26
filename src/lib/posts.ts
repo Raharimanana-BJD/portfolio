@@ -1,7 +1,7 @@
 import fs from "fs/promises";
+import matter from "gray-matter";
 import path from "path";
 import { z } from "zod";
-import matter from "gray-matter";
 
 const postSchema = z.object({
   title: z.string().min(24).max(45),

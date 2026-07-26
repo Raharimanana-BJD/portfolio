@@ -1,5 +1,6 @@
 "use client";
 
+import { parseAsInteger, useQueryState } from "nuqs";
 import {
   Pagination,
   PaginationContent,
@@ -8,7 +9,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useQueryState, parseAsInteger } from "nuqs";
 import { cn } from "@/lib/utils";
 
 interface PostsPaginationProps {

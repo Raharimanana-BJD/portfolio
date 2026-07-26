@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import Script from "next/script";
 import { useTheme } from "next-themes";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";

@@ -1,9 +1,9 @@
 import { Check, Code, File, Mail, MapPin, Share2 } from "lucide-react";
+import Image, { type StaticImageData } from "next/image";
+import Link from "next/link";
+import { CoverImage, ProfileImage } from "../../public";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import Image, { StaticImageData } from "next/image";
-import { CoverImage, ProfileImage } from "../../public";
-import Link from "next/link";
 
 interface HeroPageProps {
   profileImage?: string | StaticImageData;

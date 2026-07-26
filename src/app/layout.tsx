@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "sonner";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 

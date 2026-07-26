@@ -1,5 +1,13 @@
 "use client";
 
+import { Tag } from "lucide-react";
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+  useQueryStates,
+} from "nuqs";
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,14 +17,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tag } from "lucide-react";
-import {
-  useQueryStates,
-  parseAsArrayOf,
-  parseAsString,
-  parseAsInteger,
-} from "nuqs";
-import { useTransition } from "react";
 
 interface CategoryFilterProps {
   categories: string[];
