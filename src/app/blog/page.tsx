@@ -1,8 +1,7 @@
-import { Calendar } from "lucide-react";
-import Link from "next/link";
+import type { Metadata } from "next";
 import type { SearchParams } from "nuqs/server";
-import { Badge } from "@/components/ui/badge";
 
+import { PostCard } from "@/components/post-card";
 import { getPosts } from "@/lib/posts";
 import { searchParamsCache } from "@/lib/search-params";
 import { CategoryFilter } from "./_components/category-filter";
@@ -10,51 +9,23 @@ import { PerPageSelect } from "./_components/per-page-select";
 import { PostsPagination } from "./_components/posts-pagination";
 import { SearchInput } from "./_components/search-input";
 
-interface PostCardProps {
-  slug: string;
-  title: string;
-  date: Date;
-  description: string;
-  category?: string[];
-}
-
-function PostCard({ slug, title, date, description, category }: PostCardProps) {
-  return (
-    <Link
-      href={`/blog/${slug}`}
-      className="block rounded-lg border border-border p-6 transition-colors hover:bg-accent/50"
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="text-2xl font-semibold text-foreground">{title}</h3>
-          <p className="mb-4 mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-            {description}
-          </p>
-        </div>
-        <div className="flex shrink-0 items-center gap-2 text-sm text-muted-foreground">
-          <Calendar className="size-4" />
-          <span>
-            {new Intl.DateTimeFormat("fr-FR", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            }).format(date)}
-          </span>
-        </div>
-      </div>
-
-      {category && category.length > 0 && (
-        <div className="mb-4 flex flex-wrap gap-2">
-          {category.map((tag) => (
-            <Badge key={tag} variant="outline">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      )}
-    </Link>
-  );
-}
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Articles techniques sur le développement web, Docker, Linux et les technologies modernes. Guides pratiques et retours d'expérience.",
+  openGraph: {
+    title: "Blog - Braharim",
+    description:
+      "Articles techniques sur le développement web, Docker, Linux et les technologies modernes.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Braharim",
+    description:
+      "Articles techniques sur le développement web, Docker, Linux et les technologies modernes.",
+  },
+};
 
 interface PageBlogProps {
   searchParams: Promise<SearchParams>;
@@ -90,9 +61,9 @@ export default async function PageBlog({ searchParams }: PageBlogProps) {
   );
 
   return (
-    <section className="pl-0 max-md:px-12 space-y-8">
+    <section className="space-y-8 pl-0 max-md:px-12">
       <div className="py-12">
-        <h1 className="text-3xl font-bold leading-relaxed text-foreground">
+        <h1 className="font-bold text-3xl text-foreground leading-relaxed">
           Blogs
         </h1>
         <p className="text-muted-foreground">
@@ -107,11 +78,11 @@ export default async function PageBlog({ searchParams }: PageBlogProps) {
         </div>
       </div>
 
-      <div className="space-y-8 mb-8">
+      <div className="mb-8 space-y-8">
         {paginated.length === 0 ? (
           <p className="text-muted-foreground">No posts found.</p>
         ) : (
-          paginated.map((post, index) => <PostCard key={index} {...post} />)
+          paginated.map((post) => <PostCard key={post.slug} {...post} />)
         )}
       </div>
 

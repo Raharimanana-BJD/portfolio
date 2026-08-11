@@ -13,6 +13,7 @@ import { MdxImage } from "@/components/mdx/mdx-image";
 import { Pre } from "@/components/mdx/pre";
 import { Badge } from "@/components/ui/badge";
 import { getPostBySlug, getPosts, getRecentPosts } from "@/lib/posts";
+import { formatDate } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -76,15 +77,9 @@ export default async function BlogPostPage({ params }: PageProps) {
           <h1 className="font-bold text-4xl text-foreground leading-tight">
             {post.title}
           </h1>
-          <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="mt-4 flex items-center gap-2 text-muted-foreground text-sm">
             <Calendar className="size-4" />
-            <span>
-              {new Intl.DateTimeFormat("fr-FR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }).format(post.date)}
-            </span>
+            <span>{formatDate(post.date)}</span>
           </div>
           {post.category.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
@@ -97,21 +92,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
         </header>
 
-        <div
-          className="
-            prose prose-neutral dark:prose-invert max-w-none
-            prose-headings:font-semibold prose-headings:tracking-tight prose-headings:scroll-mt-24
-            prose-h2:mt-12 prose-h2:text-2xl
-            prose-h3:mt-8 prose-h3:text-xl
-            prose-p:leading-relaxed
-            prose-a:text-primary prose-a:underline-offset-4
-            prose-code:rounded prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5
-            prose-code:font-normal prose-code:before:content-none prose-code:after:content-none
-            prose-pre:bg-transparent prose-pre:p-0
-            prose-img:rounded-lg
-            prose-blockquote:border-l-primary prose-blockquote:font-normal prose-blockquote:not-italic
-          "
-        >
+        <div className="typeset typeset-blog">
           <MDXRemote
             source={post.content}
             options={mdxOptions}
@@ -121,8 +102,8 @@ export default async function BlogPostPage({ params }: PageProps) {
       </article>
 
       {recentPosts.length > 0 && (
-        <section className="mt-16 border-t border-border pt-10">
-          <h2 className="text-xl font-semibold text-foreground">
+        <section className="mt-16 border-border border-t pt-10">
+          <h2 className="font-semibold text-foreground text-xl">
             Recent articles
           </h2>
           <div className="mt-6 space-y-4">
@@ -137,15 +118,15 @@ export default async function BlogPostPage({ params }: PageProps) {
                     <h3 className="font-medium text-foreground">
                       {recent.title}
                     </h3>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                    <p className="mt-1 line-clamp-2 text-muted-foreground text-sm">
                       {recent.description}
                     </p>
                   </div>
-                  <span className="shrink-0 text-xs text-muted-foreground">
-                    {new Intl.DateTimeFormat("fr-FR", {
+                  <span className="shrink-0 text-muted-foreground text-xs">
+                    {formatDate(recent.date, "fr-FR", {
                       day: "numeric",
                       month: "short",
-                    }).format(recent.date)}
+                    })}
                   </span>
                 </div>
               </Link>

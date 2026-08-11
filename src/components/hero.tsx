@@ -44,10 +44,10 @@ export default function HeroPage({
   return (
     <section>
       {/* Conteneur de la bannière avec la couleur de fond orange/marron */}
-      <div className="relative h-54 md:h-64 w-full overflow-hidden bg-linear-to-tl from-white to-black/25 dark:to-black">
+      <div className="relative h-54 w-full overflow-hidden bg-linear-to-tl from-white to-black/25 md:h-64 dark:to-black">
         {/* L'image de couverture est placée de manière absolue tout à droite */}
         {coverImage && (
-          <div className="relative left-1/2 max-sm:left-1/4 top-0 h-full aspect-208/200">
+          <div className="relative top-0 left-1/2 aspect-208/200 h-full max-sm:left-1/4">
             <Image
               src={coverImage}
               alt="Cover image"
@@ -55,7 +55,7 @@ export default function HeroPage({
               height={300}
               priority
               loading="eager"
-              className="bottom-0 max-md:-bottom-8 absolute right-0"
+              className="max-md:-bottom-8 absolute right-0 bottom-0"
             />
           </div>
         )}
@@ -63,9 +63,9 @@ export default function HeroPage({
         {/* Badge dynamique "Available for work" */}
         <Badge
           variant="outline"
-          className="absolute border-foreground top-4 left-6 md:left-12 z-20 "
+          className="absolute top-4 left-6 z-20 border-foreground md:left-12"
         >
-          <Check className="w-3 h-3 mr-1" />
+          <Check className="mr-1 h-3 w-3" />
           <span className="hidden md:block">{status}</span>
           <span className="block md:hidden">Disponible</span>
         </Badge>
@@ -73,9 +73,9 @@ export default function HeroPage({
 
       {/* Reste du profil */}
       <div className="px-0 pt-20 md:px-6">
-        <div className="flex flex-col md:flex-row md:items-end -mt-16 mb-6 relative z-10 gap-4">
+        <div className="-mt-16 relative z-10 mb-6 flex flex-col gap-4 md:flex-row md:items-end">
           {/* Avatar circulaire avec contour épais */}
-          <div className=" hidden size-32 overflow-hidden rounded-full border-4 border-border bg-accent shadow-xl relative">
+          <div className="relative hidden size-32 overflow-hidden rounded-full border-4 border-border bg-accent shadow-xl">
             {profileImage ? (
               <Image
                 src={profileImage}
@@ -94,17 +94,17 @@ export default function HeroPage({
           <div>
             <div>
               <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">{name}</h1>
+                <h1 className="font-bold text-3xl">{name}</h1>
                 <Button
                   size="sm"
                   variant="outline"
-                  className={"flex max-md:hidden max-md:mr-6"}
+                  className={"flex max-md:mr-6 max-md:hidden"}
                 >
-                  <Share2 className="w-4 h-4" />
+                  <Share2 className="h-4 w-4" />
                   <span className="hidden sm:inline">Partager</span>
                 </Button>
               </div>
-              <div className="space-x-2 mt-1">
+              <div className="mt-1 space-x-2">
                 <Badge variant={"default"}>
                   <Code />
                   {title}
@@ -115,10 +115,10 @@ export default function HeroPage({
                 </Badge>
               </div>
             </div>
-            <p className="text-muted-foreground text-lg mt-2 mr-6">{bio}</p>
+            <p className="mt-2 mr-6 text-lg text-muted-foreground">{bio}</p>
           </div>
           {skills.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2 mr-6">
+            <div className="mr-6 flex flex-wrap gap-2 pt-2">
               {skills.map((skill) => (
                 <Badge key={skill} variant="outline" className="flex-auto">
                   {skill}
@@ -126,7 +126,7 @@ export default function HeroPage({
               ))}
             </div>
           )}
-          <div className="flex flex-col sm:flex-row gap-3 pt-4 mr-6">
+          <div className="mr-6 flex flex-col gap-3 pt-4 sm:flex-row">
             <Button
               nativeButton={false}
               render={
@@ -134,13 +134,13 @@ export default function HeroPage({
                   className="flex items-center"
                   href={"mailto:brayjuanico@gmail.com"}
                 >
-                  <Mail className="w-4 h-4 mr-2" />
+                  <Mail className="mr-2 h-4 w-4" />
                   brayjuanico@gmail.com
                 </Link>
               }
             />
             <Button onClick={onResumeClick} variant="outline">
-              <File className="w-4 h-4 mr-2" />
+              <File className="mr-2 h-4 w-4" />
               Télécharger le CV
             </Button>
           </div>

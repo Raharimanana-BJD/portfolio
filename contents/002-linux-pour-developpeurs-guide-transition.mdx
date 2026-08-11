@@ -1,0 +1,421 @@
+---
+title: "Linux pour développeurs : mon parcours"
+description: "Retour d'expérience après 6 mois sous Linux : pourquoi j'ai quitté Windows, les défis rencontrés, et comment Linux a transformé mon workflow de développement au quotidien."
+date: 2026-08-11
+published: true
+category: ["Dev web", "DevOps"]
+---
+
+Après des années sous Windows, j'ai franchi le cap : Linux est devenu mon système d'exploitation principal. Six mois plus tard, je ne regrette rien.
+
+Ce n'est pas un article technique sur comment installer telle ou telle distribution. C'est un retour d'expérience honnête d'un développeur qui a fait le saut, avec ses réussites, ses galères, et surtout, ce qui a vraiment changé dans son quotidien.
+
+## Pourquoi j'ai quitté Windows
+
+Je développe principalement sur ma machine personnelle en dehors du travail. Une tour gaming bien équipée qui tourne sous Windows depuis des années. Mais plusieurs frustrations s'accumulaient.
+
+### La lenteur qui s'installe
+
+Windows est devenu progressivement plus lent. Pas de manière catastrophique, mais ces petites latences s'accumulent :
+
+- Démarrage de Docker Desktop qui prend plusieurs minutes
+- Installation de dépendances npm qui traîne
+- Ouverture de projets dans VS Code qui rame
+- Compilations TypeScript plus lentes qu'elles ne devraient
+
+Rien de bloquant pris individuellement, mais au quotidien, ces micro-frictions finissent par agacer.
+
+### La perte de contrôle
+
+Microsoft est devenu de plus en plus intrusif ces dernières années :
+
+- Des publicités dans le menu démarrer
+- Edge qui s'installe en catimini et se réinitialise comme navigateur par défaut
+- Cortana/Windows Search qui indexe tout en arrière-plan
+- La télémétrie omniprésente et difficile à désactiver complètement
+- Les mises à jour qui redémarrent la machine au pire moment
+
+Je voulais simplement retrouver la maîtrise de mon système.
+
+### WSL : une demi-mesure
+
+WSL2 (Windows Subsystem for Linux) aurait pu être une solution. J'ai essayé pendant plusieurs mois.
+
+Le principe est excellent : un vrai noyau Linux qui tourne sous Windows. Mais dans la pratique, c'est bancal :
+
+- Performance I/O décevante entre WSL et le système Windows
+- Docker Desktop qui nécessite WSL mais ajoute une couche d'abstraction
+- Duplication des outils (Git côté Windows ET côté WSL)
+- Problèmes de permissions entre les deux environnements
+- Consommation mémoire importante
+
+WSL reste un Linux dans une cage. Je voulais du natif.
+
+## Premier pas : Ubuntu et la simplicité
+
+Pour ma transition, j'ai choisi la prudence. Exit les distributions exotiques, place à **Ubuntu 24.04 LTS**.
+
+Pourquoi Ubuntu ?
+
+- Documentation abondante
+- Communauté massive
+- Support matériel excellent
+- Stabilité éprouvée
+- Familiarité (beaucoup de serveurs tournent dessus)
+
+### L'installation : étonnamment simple
+
+J'avais gardé Windows en dual-boot par précaution. Le processus d'installation m'a agréablement surpris :
+
+1. Créer une clé USB bootable avec Rufus
+2. Démarrer dessus
+3. Suivre l'installateur graphique (plus simple que Windows !)
+4. 15 minutes plus tard, c'est prêt
+
+Tout mon matériel a été reconnu : carte graphique, Wi-Fi, Bluetooth, périphériques USB. Aucune recherche de pilotes à faire.
+
+### Les premiers jours : zone de confort
+
+Ubuntu avec son environnement GNOME est rassurant pour un débutant :
+
+- Interface graphique moderne et intuitive
+- App store intégré (Software Center)
+- Paramètres accessibles sans toucher au terminal
+- Applications classiques disponibles (Firefox, LibreOffice, etc.)
+
+J'ai pu continuer à travailler presque normalement dès le premier jour. Les différences étaient là, mais jamais bloquantes.
+
+## L'écosystème de développement
+
+C'est ici que Linux brille vraiment pour un développeur.
+
+### Les outils natifs
+
+Tous les outils qu'on utilise au quotidien sont des citoyens de première classe sous Linux :
+
+**Git** : préinstallé, à jour, rapide. Plus besoin de Git for Windows et ses 200 Mo.
+
+**Node.js / npm** : installation directe via le gestionnaire de paquets. Les packages npm s'installent **beaucoup** plus vite (notamment les modules natifs qui ne nécessitent plus de compilation croisée).
+
+**Docker** : l'expérience native est incomparable avec Docker Desktop sous Windows. Léger, rapide, sans surcouche.
+
+**Python, PHP, Ruby...** : tous disponibles en une commande, sans installateurs graphiques, sans chemins à configurer manuellement dans PATH.
+
+### Package managers : la révélation
+
+Sous Windows, installer un logiciel signifie :
+1. Chercher le site officiel
+2. Télécharger un .exe ou .msi
+3. Lancer l'installateur
+4. Cliquer sur "Suivant" dix fois
+5. Décocher les barres d'outils sponsorisées
+
+Sous Linux, c'est :
+
+```bash
+sudo apt install nom-du-logiciel
+```
+
+Ou mieux, installer plusieurs outils en une seule commande :
+
+```bash
+sudo apt install git curl vim tmux htop
+```
+
+Tout est centralisé, vérifié, et à jour via un seul système.
+
+### Performance : le gain tangible
+
+Les différences de performance sont réelles :
+
+**Compilation TypeScript** : ~30% plus rapide sur mes projets moyens
+**Installation npm** : divisée par 2 en temps
+**Démarrage Docker** : quasi instantané vs 2-3 minutes sous Windows
+**Ouverture de projets** : VS Code démarre en 2 secondes au lieu de 5-6
+
+Ce ne sont pas des gains révolutionnaires, mais au quotidien, ça fait une vraie différence.
+
+## Le terminal : de l'obligation au plaisir
+
+Sous Windows, j'évitais le terminal. PowerShell était peu intuitif, cmd.exe préhistorique.
+
+Sous Linux, le terminal devient central. Et contrairement aux idées reçues, c'est une force, pas une contrainte.
+
+### Pourquoi le terminal est puissant
+
+**Automatisation** : enchaîner plusieurs commandes facilement
+
+```bash
+git pull && npm install && npm run build && npm test
+```
+
+**Efficacité** : certaines opérations sont plus rapides en ligne de commande qu'en cliquant dans des menus
+
+**Reproductibilité** : noter les commandes dans un fichier pour les refaire plus tard
+
+**Scripting** : automatiser les tâches répétitives avec bash
+
+### Des outils qui rendent ça agréable
+
+**zsh + oh-my-zsh** : auto-complétion intelligente, historique partagé entre terminaux, plugins utiles
+
+**tmux** : gérer plusieurs terminaux dans une seule fenêtre, sessions persistantes
+
+**fzf** : recherche floue ultra rapide dans l'historique de commandes
+
+**bat** : `cat` en mieux, avec coloration syntaxique
+
+**exa** : `ls` modernisé et plus lisible
+
+Le terminal Linux n'est pas celui de 1995. L'écosystème moderne est riche et agréable.
+
+## Les applications : moins de lacunes qu'avant
+
+C'était ma plus grande inquiétude : est-ce que j'allais trouver tous mes outils ?
+
+### Développement : aucun problème
+
+**VS Code** : disponible officiellement pour Linux, fonctionne parfaitement
+
+**JetBrains** : toute la suite (WebStorm, PhpStorm, DataGrip) tourne sous Linux
+
+**Postman** : version native disponible
+
+**DBeaver** : mon client SQL préféré, disponible
+
+**Git clients** : GitKraken, GitHub Desktop, Sublime Merge
+
+Aucun compromis à faire.
+
+### Navigateurs : choix complet
+
+Firefox, Chrome, Chromium, Brave, Edge (oui, même Edge)... tous disponibles.
+
+### Communication : tout est là
+
+**Slack** : application native
+**Discord** : application native
+**Zoom** : fonctionne (avec quelques bugs mineurs de partage d'écran)
+**Teams** : disponible (même si la version web est souvent plus stable)
+
+### Bureautique : alternatives viables
+
+**LibreOffice** : remplace honorablement Microsoft Office pour un usage basique
+
+**OnlyOffice** : interface encore plus proche de MS Office
+
+**Google Workspace** : en web, fonctionne parfaitement
+
+**LaTeX** : pour des documents complexes, support natif excellent
+
+Si vous dépendez lourdement de macros Excel avancées ou de fonctionnalités pointues de Word, il peut y avoir des frictions. Mais pour 90% des usages, c'est largement suffisant.
+
+## Gaming sous Linux : la surprise
+
+Je ne suis pas un gamer hardcore, mais j'aime pouvoir jouer de temps en temps. Linux et gaming n'ont pas toujours fait bon ménage, mais les choses ont radicalement changé.
+
+### Steam et Proton : le game changer
+
+Valve a développé **Proton**, une couche de compatibilité basée sur Wine qui permet de faire tourner des jeux Windows sur Linux, directement depuis Steam.
+
+Dans la pratique :
+1. J'installe un jeu Windows sur Steam Linux
+2. Steam active automatiquement Proton
+3. Le jeu se lance... et fonctionne
+
+Aucune configuration, aucune ligne de commande. Ça marche, point.
+
+### ProtonDB : savoir avant d'acheter
+
+Le site [ProtonDB.com](https://www.protondb.com) liste la compatibilité de milliers de jeux avec Proton, avec des notes :
+
+- **Platinum** : fonctionne parfaitement sans configuration
+- **Gold** : fonctionne avec des tweaks mineurs
+- **Silver** : fonctionne mais avec des bugs mineurs
+- **Bronze** : fonctionne mais avec des problèmes notables
+- **Borked** : ne fonctionne pas
+
+La majorité des jeux solo sont Gold ou Platinum.
+
+### Les limites : anti-cheat
+
+Le principal problème vient des jeux en ligne avec anti-cheat invasifs (EasyAntiCheat, BattlEye).
+
+Certains fonctionnent, d'autres non. C'est variable selon si l'éditeur a activé le support Linux ou pas.
+
+Le site [AreWeAntiCheatYet.com](https://areweanticheatyet.com) suit l'état de support de ces systèmes.
+
+### Mon expérience concrète
+
+Sur ma bibliothèque Steam de ~50 jeux, environ 85% fonctionnent parfaitement. Les 15% restants sont principalement des jeux compétitifs avec anti-cheat.
+
+Les performances sont comparables à Windows, parfois même légèrement meilleures.
+
+## Les défis rencontrés
+
+Tout n'a pas été rose. Voici les vrais problèmes que j'ai rencontrés.
+
+### 1. Nvidia et ses drivers
+
+J'ai une carte Nvidia. Sous Linux, c'est un sujet sensible.
+
+Les drivers open source (Nouveau) ne suffisent pas pour du gaming ou du développement intensif. Il faut installer les drivers propriétaires Nvidia.
+
+Le processus n'est pas terrible :
+- Ajouter un PPA
+- Installer les drivers
+- Redémarrer
+- Espérer que tout fonctionne
+
+Ça a marché du premier coup pour moi, mais j'ai vu des témoignages de configurations plus problématiques.
+
+**Note** : AMD a une bien meilleure intégration sous Linux avec des drivers open source de qualité. Si je change de carte graphique, j'opterai probablement pour AMD.
+
+### 2. Support de certains logiciels propriétaires
+
+Certains outils restent absents :
+
+**Adobe Suite** (Photoshop, Illustrator, Premiere) : pas de version Linux. Les alternatives (GIMP, Inkscape, DaVinci Resolve) existent mais demandent une adaptation.
+
+**Microsoft Office** : pas de version native. LibreOffice ou la version web seulement.
+
+**Certains VPN d'entreprise** : selon les solutions, le support peut être partiel ou absent.
+
+### 3. Compatibilité matérielle spécifique
+
+Mon casque Bluetooth a parfois des problèmes de reconnexion après mise en veille. Rien de bloquant, mais agaçant.
+
+Ma webcam Logitech fonctionne, mais certaines fonctionnalités avancées (autofocus, zoom numérique) ne sont pas disponibles.
+
+### 4. Support technique inexistant
+
+Si un problème survient, vous êtes seul. Pas de hotline Microsoft à appeler. Il faut chercher sur les forums, lire la documentation, expérimenter.
+
+C'est à la fois un défi et une opportunité d'apprendre.
+
+## Ce que j'ai appris
+
+Cette transition m'a forcé à sortir de ma zone de confort.
+
+### Comprendre mon système
+
+Sous Windows, je subissais mon OS. Sous Linux, je le comprends :
+
+- Comment démarrent les services
+- Où sont stockés les fichiers de configuration
+- Comment fonctionne le système de permissions
+- Comment gérer les processus
+- Comment fonctionne le réseau
+
+Cette compréhension me rend plus autonome et plus efficace.
+
+### Le terminal n'est pas l'ennemi
+
+Loin d'être une contrainte archaïque, le terminal est devenu mon outil préféré. Plus rapide, plus précis, plus automatisable que l'interface graphique.
+
+### La communauté open source
+
+La communauté Linux est accueillante. Les wikis (notamment celui d'Arch Linux) sont des mines d'or, même pour d'autres distributions.
+
+Les forums regorgent de gens prêts à aider, tant qu'on montre qu'on a cherché avant de poser sa question.
+
+## Conseils pour ceux qui hésitent
+
+Si vous envisagez de passer à Linux, voici mes recommandations.
+
+### 1. Gardez Windows en dual-boot
+
+Au moins au début. Ça rassure et permet de revenir en arrière si besoin sans perdre de données.
+
+Après quelques mois, vous verrez si vous retournez encore sous Windows ou pas.
+
+### 2. Commencez avec Ubuntu ou Linux Mint
+
+Ce ne sont pas les distributions les plus sexy, mais elles sont :
+- Stables
+- Bien documentées
+- Dotées d'une large communauté
+- Compatibles avec beaucoup de matériel
+
+Une fois à l'aise, vous pourrez explorer d'autres distributions si vous voulez.
+
+### 3. Acceptez l'apprentissage
+
+Les premiers jours seront déroutants. C'est normal. Donnez-vous le temps d'apprendre.
+
+Cherchez comment faire sous Linux plutôt que de chercher à reproduire exactement votre workflow Windows.
+
+### 4. Testez avant de vous engager
+
+Utilisez une machine virtuelle ou une clé USB live pour tester Linux sans rien installer.
+
+Vérifiez que votre matériel est compatible, que vos outils existent, que le système vous plaît.
+
+### 5. Préparez vos données
+
+Faites des sauvegardes de vos documents importants avant de toucher aux partitions.
+
+Notez la liste des logiciels que vous utilisez régulièrement pour vérifier leur disponibilité sous Linux.
+
+## Six mois plus tard : le bilan
+
+Après six mois à temps plein sous Linux (Ubuntu), voici mon ressenti.
+
+### Ce qui s'est amélioré
+
+**Performance** : gain réel sur toutes les tâches de développement
+
+**Stabilité** : aucun crash système, pas de ralentissements progressifs
+
+**Contrôle** : je comprends et maîtrise mon système
+
+**Workflow** : développement plus fluide, moins de friction
+
+**Apprentissage** : j'ai beaucoup appris sur les systèmes d'exploitation
+
+### Ce qui me manque (un peu)
+
+**Certains logiciels** : principalement Adobe Suite pour le graphisme occasionnel
+
+**Plug and play total** : certains périphériques demandent un peu de configuration
+
+**Support commercial** : pas de hotline en cas de gros problème
+
+### Est-ce que je recommande ?
+
+**Pour un développeur** : oui, absolument. Les bénéfices surpassent largement les inconvénients.
+
+**Pour un gamer casual** : oui, si vous jouez principalement en solo ou à des jeux sans anti-cheat agressif.
+
+**Pour un gamer compétitif** : à nuancer. Vérifiez la compatibilité de vos jeux préférés.
+
+**Pour un utilisateur bureautique** : ça dépend. Si vous dépendez de logiciels Windows spécifiques, restez prudent.
+
+**Pour quelqu'un qui veut apprendre** : oui, c'est une excellente opportunité.
+
+## Conclusion
+
+Passer à Linux n'est pas une décision technique, c'est un choix philosophique.
+
+C'est accepter de reprendre le contrôle de son système, quitte à devoir apprendre et parfois galérer.
+
+C'est privilégier la performance et la stabilité au confort immédiat.
+
+C'est rejoindre un écosystème ouvert plutôt qu'un produit commercial.
+
+Six mois après avoir franchi le cap, je ne retourne plus sous Windows. Mon dual-boot prend la poussière. Linux est devenu mon environnement naturel.
+
+Et franchement ? Je ne pensais pas dire ça un jour, mais j'apprécie vraiment mon système d'exploitation maintenant.
+
+## Ressources utiles
+
+Si vous voulez aller plus loin :
+
+- [Ubuntu Desktop](https://ubuntu.com/desktop) - Distribution recommandée pour débuter
+- [Linux Mint](https://linuxmint.com/) - Alternative encore plus accessible
+- [ProtonDB](https://www.protondb.com) - Compatibilité des jeux avec Linux
+- [DistroWatch](https://distrowatch.com/) - Suivre l'actualité des distributions
+- [ArchWiki](https://wiki.archlinux.org/) - Documentation technique de référence (valable pour toutes les distributions)
+- [r/linux4noobs](https://www.reddit.com/r/linux4noobs/) - Communauté accueillante pour débutants
+
+Le saut n'est pas si grand qu'on le croit. Et l'herbe est vraiment plus verte de l'autre côté. 🐧

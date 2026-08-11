@@ -19,16 +19,16 @@ function CertificateCard({
   return (
     <div>
       {/* Header */}
-      <div className="flex items-start justify-between mb-3">
+      <div className="mb-3 flex items-start justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-          <p className="text-sm text-muted-foreground">{issuer}</p>
+          <h3 className="font-semibold text-foreground text-lg">{title}</h3>
+          <p className="text-muted-foreground text-sm">{issuer}</p>
         </div>
-        <Award className="w-5 h-5 text-primary shrink-0" />
+        <Award className="h-5 w-5 shrink-0 text-primary" />
       </div>
       {/* Date */}
-      <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
-        <Calendar className="w-4 h-4" />
+      <div className="mb-4 flex items-center gap-2 text-muted-foreground text-sm">
+        <Calendar className="h-4 w-4" />
         <span>{date}</span>
       </div>
 
@@ -65,12 +65,12 @@ export default function AcademicSection({
   subtitle,
 }: AcademicSectionProps) {
   return (
-    <section className="px-0 max-md:px-12 py-16">
-      <div className="max-w-6xl mx-auto">
+    <section className="px-0 py-16 max-md:px-12">
+      <div className="mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-12">
-          <h2 className="text-xl font-bold mb-2">{title}</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-primary to-primary-foreground rounded" />
+          <h2 className="mb-2 font-bold text-xl">{title}</h2>
+          <div className="h-1 w-16 rounded bg-linear-to-r from-primary to-primary-foreground" />
         </div>
 
         {/* Certificates Grid */}

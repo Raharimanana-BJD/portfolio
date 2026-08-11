@@ -30,8 +30,8 @@ function ProjectCard({
   return (
     <Card className="bg-inherit">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold">{title}</CardTitle>
-        <CardDescription className="leading-relaxed line-clamp-2">
+        <CardTitle className="font-semibold text-xl">{title}</CardTitle>
+        <CardDescription className="line-clamp-2 leading-relaxed">
           {description}
         </CardDescription>
       </CardHeader>
@@ -57,7 +57,7 @@ function ProjectCard({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLink className="w-4 h-4 mr-2" />
+              <ExternalLink className="mr-2 h-4 w-4" />
               Voir le site
             </Link>
           </Button>
@@ -87,12 +87,12 @@ export default function ProjectsSection({
 }: ProjectsSectionProps) {
   return (
     <section className="py-6 pt-12 max-md:p-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         {/* Section Header */}
         <div className="mb-12">
-          <h2 className="text-xl font-bold mb-2">{title}</h2>
-          <div className="h-1 w-16 bg-linear-to-r from-primary to-primary-foreground rounded" />
-          <p className="text-muted-foreground text-sm hidden">{descriptions}</p>
+          <h2 className="mb-2 font-bold text-xl">{title}</h2>
+          <div className="h-1 w-16 rounded bg-linear-to-r from-primary to-primary-foreground" />
+          <p className="hidden text-muted-foreground text-sm">{descriptions}</p>
         </div>
 
         {/* Projects Grid */}

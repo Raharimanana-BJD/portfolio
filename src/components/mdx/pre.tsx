@@ -20,7 +20,7 @@ export function Pre({ children, ...props }: ComponentProps<"pre">) {
         type="button"
         onClick={handleCopy}
         aria-label="Copy code"
-        className="absolute right-2 top-2 z-10 rounded-md border border-border bg-background/80 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-foreground group-hover:opacity-100"
+        className="absolute top-2 right-2 z-10 rounded-md border border-border bg-background/80 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-foreground group-hover:opacity-100"
       >
         {copied ? (
           <CheckIcon className="size-3.5" />

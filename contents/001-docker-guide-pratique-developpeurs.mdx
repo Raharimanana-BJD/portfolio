@@ -1,0 +1,565 @@
+---
+title: "Docker : Guide pratique pour développeurs"
+description: "Découvrez Docker à travers une approche pratique et progressive. De l'installation à l'orchestration, apprenez à conteneuriser vos applications et simplifier vos environnements de développement."
+date: 2026-08-11
+published: true
+category: ["DevOps", "Docker"]
+---
+
+Il y a quelques années, déployer une application signifiait configurer manuellement un serveur : installer Node.js, PostgreSQL, Nginx, configurer SSH, gérer les versions... Un vrai casse-tête quand il fallait maintenir plusieurs projets avec des exigences différentes.
+
+Aujourd'hui, **Docker** change la donne. Cet article vous guide à travers les fondamentaux de Docker avec une approche pratique et progressive.
+
+## Le problème que Docker résout
+
+Imaginez cette situation : vous développez trois applications différentes sur votre machine locale.
+
+- **Projet A** : Node.js 18 avec PostgreSQL 14
+- **Projet B** : Node.js 20 avec PostgreSQL 16
+- **Projet C** : PHP 8.2 avec MySQL 8.0
+
+Sans conteneurisation, vous êtes confronté à plusieurs défis :
+
+### Conflits de versions
+
+Installer plusieurs versions d'un même logiciel sur la même machine est complexe. Vous pourriez utiliser des gestionnaires de versions comme `nvm` pour Node.js, mais cela devient vite ingérable quand on multiplie les outils.
+
+### L'effet "ça marche sur ma machine"
+
+Votre application fonctionne parfaitement en local, mais plante en production. Pourquoi ? Parce que les environnements diffèrent : versions différentes, configurations différentes, dépendances manquantes.
+
+### Pollution du système
+
+Au fil du temps, votre machine accumule des installations : bases de données, serveurs web, bibliothèques système. Difficile de faire le ménage sans risquer de casser quelque chose.
+
+## Docker : la solution élégante
+
+Docker résout ces problèmes en **isolant** chaque application dans son propre **conteneur**. Chaque conteneur embarque tout ce dont l'application a besoin pour fonctionner.
+
+Trois avantages majeurs :
+
+1. **Isolation** : Chaque projet vit dans son propre environnement
+2. **Portabilité** : Si ça fonctionne en local, ça fonctionnera en production
+3. **Reproductibilité** : Partagez votre environnement exact avec votre équipe
+
+### Docker vs Machines Virtuelles
+
+Vous vous demandez peut-être : "N'est-ce pas ce que font les machines virtuelles ?"
+
+Oui, mais avec une différence fondamentale :
+
+- **VM** : virtualise un système complet (OS, noyau, bibliothèques)
+- **Docker** : partage le noyau de l'hôte, isole uniquement l'application
+
+Résultat : Docker est **plus léger**, **plus rapide** et consomme **moins de ressources**.
+
+## Les concepts clés de Docker
+
+Avant de plonger dans la pratique, comprenons les trois concepts fondamentaux.
+
+### 1. Les images Docker
+
+Une **image** est un modèle en lecture seule. Pensez-y comme un **template** ou une **recette** qui décrit :
+
+- Le système d'exploitation de base
+- Les dépendances système
+- Votre code
+- La configuration
+
+Les images sont **immuables** : une fois créées, elles ne changent pas. Pour modifier une application, on crée une nouvelle image.
+
+### 2. Les conteneurs
+
+Un **conteneur** est une **instance en cours d'exécution** d'une image. C'est votre application qui tourne.
+
+Analogie simple :
+- **Image** = une classe en programmation
+- **Conteneur** = une instance de cette classe
+
+Vous pouvez créer autant de conteneurs que nécessaire à partir d'une seule image.
+
+### 3. Les volumes
+
+Par défaut, les conteneurs sont **éphémères** : quand vous les supprimez, leurs données disparaissent.
+
+Les **volumes** permettent de **persister les données** en dehors du conteneur. Essentiel pour les bases de données !
+
+## Installation et premier pas
+
+### Installation
+
+Pour installer Docker, suivez le guide officiel selon votre système d'exploitation : [docs.docker.com/get-started/get-docker](https://docs.docker.com/get-started/get-docker)
+
+Sur macOS, vous pouvez aussi utiliser des alternatives comme **OrbStack** ou **Colima**, souvent plus performantes.
+
+Vérifiez l'installation :
+
+```bash
+docker --version
+docker compose --version
+```
+
+### Votre premier conteneur
+
+Testons Docker avec l'image officielle Hello World :
+
+```bash
+docker run hello-world
+```
+
+Docker va :
+1. Chercher l'image `hello-world` sur Docker Hub
+2. La télécharger si elle n'existe pas localement
+3. Créer un conteneur
+4. Exécuter le programme qui affiche un message
+
+Simple et efficace !
+
+### Lancer PostgreSQL en un clin d'œil
+
+Maintenant, quelque chose de plus concret. Lançons une base de données PostgreSQL :
+
+```bash
+docker run --name ma-db \
+  -e POSTGRES_PASSWORD=motdepasse \
+  -p 5432:5432 \
+  -d postgres:16
+```
+
+Décortiquons cette commande :
+
+- `--name ma-db` : nomme le conteneur
+- `-e POSTGRES_PASSWORD=motdepasse` : définit une variable d'environnement
+- `-p 5432:5432` : expose le port 5432 du conteneur sur votre machine
+- `-d` : exécute en arrière-plan
+- `postgres:16` : utilise l'image PostgreSQL version 16
+
+En quelques secondes, vous avez une base de données PostgreSQL fonctionnelle !
+
+Vérifiez qu'elle tourne :
+
+```bash
+docker ps
+```
+
+Pour l'arrêter :
+
+```bash
+docker stop ma-db
+```
+
+Pour la supprimer :
+
+```bash
+docker rm ma-db
+```
+
+### Persister les données avec les volumes
+
+**Attention** : si vous supprimez le conteneur, vos données disparaissent !
+
+Pour les conserver, utilisez un volume :
+
+```bash
+docker run --name ma-db \
+  -e POSTGRES_PASSWORD=motdepasse \
+  -p 5432:5432 \
+  -v donnees-db:/var/lib/postgresql/data \
+  -d postgres:16
+```
+
+L'option `-v donnees-db:/var/lib/postgresql/data` crée un volume nommé `donnees-db`.
+
+Même si vous supprimez le conteneur, vos données restent intactes dans ce volume.
+
+Listez vos volumes :
+
+```bash
+docker volume ls
+```
+
+## Créer votre propre image
+
+Jusqu'ici, nous avons utilisé des images existantes. Voyons maintenant comment créer une image pour votre application.
+
+### Votre premier Dockerfile
+
+Un **Dockerfile** est un fichier texte qui décrit comment construire votre image.
+
+Exemple pour une application Node.js :
+
+```dockerfile
+# Image de base
+FROM node:20-alpine
+
+# Répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm ci
+
+# Copier le code source
+COPY . .
+
+# Exposer le port
+EXPOSE 3000
+
+# Commande de démarrage
+CMD ["npm", "start"]
+```
+
+### Construire l'image
+
+```bash
+docker build -t mon-app .
+```
+
+Cette commande :
+- Lit le `Dockerfile` dans le répertoire courant (`.`)
+- Crée une image nommée `mon-app`
+
+### Lancer votre application
+
+```bash
+docker run -p 3000:3000 mon-app
+```
+
+Votre application est accessible sur `http://localhost:3000` !
+
+## Optimiser vos images
+
+### Le système de couches
+
+Les images Docker sont construites en **couches**. Chaque instruction du Dockerfile crée une nouvelle couche.
+
+Docker met en cache ces couches. Si une couche n'a pas changé, elle est réutilisée lors du prochain build.
+
+**Astuce** : ordonnez vos instructions du moins fréquemment modifié au plus fréquemment modifié.
+
+```dockerfile
+# ✅ Bon : les dépendances changent rarement
+COPY package*.json ./
+RUN npm ci
+
+# Le code change souvent, on le copie après
+COPY . .
+```
+
+```dockerfile
+# ❌ Mauvais : on copie tout d'abord
+COPY . .
+
+# Les dépendances seront réinstallées à chaque changement de code
+RUN npm ci
+```
+
+### Multi-stage builds
+
+Pour la production, vous voulez une image **la plus légère possible**.
+
+Le **multi-stage build** sépare la construction de l'exécution :
+
+```dockerfile
+# Stage 1 : Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2 : Production
+FROM node:20-alpine
+WORKDIR /app
+
+# Installer uniquement les dépendances de production
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copier uniquement les fichiers buildés
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+CMD ["node", "dist/index.js"]
+```
+
+L'image finale ne contient que le strict nécessaire, ce qui la rend plus légère et plus sécurisée.
+
+## Docker Compose : orchestrer plusieurs services
+
+La plupart des applications modernes nécessitent plusieurs services : API, base de données, cache Redis, etc.
+
+**Docker Compose** permet de définir et gérer plusieurs conteneurs ensemble.
+
+### Créer un docker-compose.yml
+
+```yaml
+version: '3.8'
+
+services:
+  # Base de données
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: monapp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Cache Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  # Votre application
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://app:secret@db:5432/monapp
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  db-data:
+```
+
+### Lancer tous les services
+
+```bash
+docker compose up -d
+```
+
+Cette simple commande démarre :
+- PostgreSQL
+- Redis
+- Votre application
+
+Tous les services peuvent communiquer entre eux via leur nom de service.
+
+### Commandes utiles
+
+```bash
+# Voir les logs
+docker compose logs -f
+
+# Arrêter tous les services
+docker compose down
+
+# Reconstruire les images
+docker compose build
+
+# Redémarrer un service
+docker compose restart api
+```
+
+## Workflow de développement avec Docker
+
+Docker transforme votre workflow de développement.
+
+### Environnement unifié pour l'équipe
+
+Toute l'équipe utilise exactement les mêmes versions de PostgreSQL, Redis, Node.js, etc. Plus de "ça marche pas chez moi".
+
+### Tester différentes versions
+
+Besoin de tester votre app avec PostgreSQL 15 et 16 ?
+
+```yaml
+# Dupliquez le service avec une version différente
+db-pg15:
+  image: postgres:15
+  ...
+
+db-pg16:
+  image: postgres:16
+  ...
+```
+
+### Nettoyage facile
+
+Fini d'accumuler des outils sur votre machine. Supprimez un projet Docker en une commande :
+
+```bash
+docker compose down -v
+```
+
+## Bonnes pratiques
+
+### 1. Utilisez des images officielles
+
+Préférez les images officielles de Docker Hub. Elles sont maintenues, sécurisées et optimisées.
+
+### 2. Utilisez des tags spécifiques
+
+```dockerfile
+# ❌ Évitez
+FROM node:latest
+
+# ✅ Préférez
+FROM node:20.11-alpine
+```
+
+`latest` peut changer à tout moment, rendant votre build non reproductible.
+
+### 3. Minimisez les couches
+
+Combinez les commandes RUN quand possible :
+
+```dockerfile
+# ❌ Crée 3 couches
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get clean
+
+# ✅ Crée 1 couche
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean
+```
+
+### 4. Utilisez .dockerignore
+
+Comme `.gitignore`, mais pour Docker. Évitez de copier des fichiers inutiles :
+
+```
+node_modules
+.git
+.env
+*.log
+dist
+```
+
+### 5. Ne stockez jamais de secrets dans les images
+
+N'écrivez jamais de mots de passe, clés API ou tokens directement dans le Dockerfile.
+
+Utilisez les variables d'environnement ou les secrets Docker.
+
+## Docker en production
+
+Docker Compose est excellent pour le développement, mais en production, vous aurez besoin d'outils plus robustes.
+
+### Docker Swarm
+
+Intégré à Docker, parfait pour commencer avec l'orchestration :
+
+- Déploiement sur plusieurs serveurs
+- Load balancing automatique
+- Rolling updates sans downtime
+- Simple à prendre en main
+
+### Kubernetes
+
+Pour les infrastructures à grande échelle :
+
+- Ecosystème très riche
+- Auto-scaling puissant
+- Gestion avancée des ressources
+- Courbe d'apprentissage plus raide
+
+Le choix dépend de vos besoins. Docker Swarm suffit pour la majorité des projets.
+
+## Commandes Docker essentielles
+
+### Gestion des conteneurs
+
+```bash
+# Lister les conteneurs en cours
+docker ps
+
+# Lister tous les conteneurs (actifs et arrêtés)
+docker ps -a
+
+# Voir les logs d'un conteneur
+docker logs nom-conteneur
+
+# Suivre les logs en temps réel
+docker logs -f nom-conteneur
+
+# Exécuter une commande dans un conteneur
+docker exec -it nom-conteneur bash
+
+# Arrêter un conteneur
+docker stop nom-conteneur
+
+# Supprimer un conteneur
+docker rm nom-conteneur
+
+# Supprimer tous les conteneurs arrêtés
+docker container prune
+```
+
+### Gestion des images
+
+```bash
+# Lister les images
+docker images
+
+# Supprimer une image
+docker rmi nom-image
+
+# Supprimer les images non utilisées
+docker image prune
+
+# Télécharger une image
+docker pull postgres:16
+```
+
+### Gestion des volumes
+
+```bash
+# Lister les volumes
+docker volume ls
+
+# Inspecter un volume
+docker volume inspect nom-volume
+
+# Supprimer un volume
+docker volume rm nom-volume
+
+# Supprimer tous les volumes non utilisés
+docker volume prune
+```
+
+### Nettoyage global
+
+```bash
+# Supprimer tout ce qui n'est pas utilisé
+docker system prune -a --volumes
+```
+
+⚠️ **Attention** : cette commande supprime images, conteneurs, volumes et réseaux non utilisés !
+
+## Conclusion
+
+Docker a révolutionné la façon dont nous développons et déployons des applications. Ce qui prenait des heures de configuration manuelle se fait maintenant en quelques commandes.
+
+Les bénéfices sont immédiats :
+- Environnements de développement cohérents
+- Déploiements fiables et reproductibles
+- Isolation et sécurité accrues
+- Onboarding simplifié pour les nouveaux développeurs
+
+Commencez simplement : conteneurisez votre base de données en développement, puis progressivement votre application entière. Vous verrez rapidement la différence.
+
+Docker n'est pas qu'un outil de production, c'est un compagnon quotidien qui simplifie votre workflow de développement.
+
+## Pour aller plus loin
+
+- [Documentation officielle Docker](https://docs.docker.com/)
+- [Docker Hub - Registre d'images](https://hub.docker.com/)
+- [Awesome Docker - Ressources communautaires](https://github.com/veggiemonk/awesome-docker)
+- [Play with Docker - Environnement de test en ligne](https://labs.play-with-docker.com/)
+
+Bon coding ! 🐳

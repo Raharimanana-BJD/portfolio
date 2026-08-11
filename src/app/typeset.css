@@ -1,0 +1,338 @@
+@layer components {
+  /* Base typeset container */
+  .typeset {
+    /* Default rhythm controls */
+    --typeset-font-body: inherit;
+    --typeset-font-heading: var(--font-heading);
+    --typeset-font-mono: var(--font-mono);
+    --typeset-size: 1em;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+
+    /* Typography scales */
+    --typeset-scale-xs: 0.8125em;
+    --typeset-scale-sm: 0.875em;
+    --typeset-scale-base: 1em;
+    --typeset-scale-lg: 1.125em;
+    --typeset-scale-xl: 1.25em;
+    --typeset-scale-2xl: 1.5em;
+    --typeset-scale-3xl: 1.875em;
+    --typeset-scale-4xl: 2.25em;
+
+    font-family: var(--typeset-font-body);
+    font-size: var(--typeset-size);
+    line-height: var(--typeset-leading);
+  }
+
+  /* Responsive size bump for better readability on mobile */
+  @media (max-width: 640px) {
+    .typeset {
+      --typeset-size: 1.0625em;
+    }
+  }
+
+  /* Opt-out mechanism */
+  .typeset :where(.not-typeset, [data-not-typeset]) {
+    all: revert;
+  }
+
+  .typeset :where(.not-typeset *, [data-not-typeset] *) {
+    all: revert;
+  }
+
+  /* Paragraphs */
+  .typeset :where(p) {
+    margin-block-start: var(--typeset-flow);
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(p:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* Headings */
+  .typeset :where(h1) {
+    margin-block-start: calc(var(--typeset-flow) * 2);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-4xl);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(h2) {
+    margin-block-start: calc(var(--typeset-flow) * 2);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-3xl);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    scroll-margin-top: 6rem;
+  }
+
+  .typeset :where(h3) {
+    margin-block-start: calc(var(--typeset-flow) * 1.5);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-2xl);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+    scroll-margin-top: 6rem;
+  }
+
+  .typeset :where(h4) {
+    margin-block-start: calc(var(--typeset-flow) * 1.25);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-xl);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(h5) {
+    margin-block-start: var(--typeset-flow);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-lg);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(h6) {
+    margin-block-start: var(--typeset-flow);
+    font-family: var(--typeset-font-heading);
+    font-size: var(--typeset-scale-base);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .typeset :where(h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* Lists */
+  .typeset :where(ul, ol) {
+    margin-block-start: var(--typeset-flow);
+    padding-inline-start: 1.5em;
+  }
+
+  .typeset :where(ul:first-child, ol:first-child) {
+    margin-block-start: 0;
+  }
+
+  .typeset :where(li) {
+    margin-block-start: 0.5em;
+    padding-inline-start: 0.25em;
+  }
+
+  .typeset :where(li:first-child) {
+    margin-block-start: 0;
+  }
+
+  .typeset :where(ul > li) {
+    list-style-type: disc;
+  }
+
+  .typeset :where(ol > li) {
+    list-style-type: decimal;
+  }
+
+  .typeset :where(li > ul, li > ol) {
+    margin-block-start: 0.5em;
+  }
+
+  /* Links */
+  .typeset :where(a) {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s;
+  }
+
+  .typeset :where(a:hover) {
+    color: var(--color-primary);
+    opacity: 0.8;
+  }
+
+  /* Inline code */
+  .typeset :where(:not(pre) > code) {
+    font-family: var(--typeset-font-mono);
+    font-size: 0.9em;
+    padding: 0.15em 0.4em;
+    background-color: var(--color-muted);
+    border-radius: var(--radius-sm);
+    color: var(--color-foreground);
+  }
+
+  /* Code blocks */
+  .typeset :where(pre) {
+    margin-block-start: var(--typeset-flow);
+    padding: 1rem;
+    background-color: var(--color-muted);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+    font-family: var(--typeset-font-mono);
+    font-size: var(--typeset-scale-sm);
+    line-height: 1.6;
+  }
+
+  .typeset :where(pre:first-child) {
+    margin-block-start: 0;
+  }
+
+  .typeset :where(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
+  /* Blockquotes */
+  .typeset :where(blockquote) {
+    margin-block-start: var(--typeset-flow);
+    padding-inline-start: 1em;
+    border-inline-start: 3px solid var(--color-primary);
+    font-style: normal;
+    color: var(--color-muted-foreground);
+  }
+
+  .typeset :where(blockquote:first-child) {
+    margin-block-start: 0;
+  }
+
+  .typeset :where(blockquote > *) {
+    margin-block-start: 0.75em;
+  }
+
+  .typeset :where(blockquote > *:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* Horizontal rules */
+  .typeset :where(hr) {
+    margin-block-start: calc(var(--typeset-flow) * 2);
+    border: none;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  /* Tables */
+  .typeset :where(table) {
+    margin-block-start: var(--typeset-flow);
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--typeset-scale-sm);
+  }
+
+  .typeset :where(table:first-child) {
+    margin-block-start: 0;
+  }
+
+  .typeset :where(thead) {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .typeset :where(th) {
+    padding: 0.75em 1em;
+    text-align: start;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(td) {
+    padding: 0.75em 1em;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .typeset :where(tbody tr:hover) {
+    background-color: var(--color-muted);
+  }
+
+  /* Responsive table wrapper */
+  .typeset-scroll {
+    margin-block-start: var(--typeset-flow);
+    overflow-x: auto;
+  }
+
+  .typeset-scroll:first-child {
+    margin-block-start: 0;
+  }
+
+  /* Images */
+  .typeset :where(img) {
+    margin-block-start: var(--typeset-flow);
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  .typeset :where(img:first-child) {
+    margin-block-start: 0;
+  }
+
+  /* Strong and emphasis */
+  .typeset :where(strong) {
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .typeset :where(em) {
+    font-style: italic;
+  }
+
+  /* Small text */
+  .typeset :where(small) {
+    font-size: var(--typeset-scale-sm);
+  }
+
+  /* Mark/highlight */
+  .typeset :where(mark) {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+    padding: 0.1em 0.2em;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Custom typeset presets */
+
+/* Blog preset - optimized for long-form reading */
+.typeset-blog {
+  --typeset-size: 1.0625rem;
+  --typeset-leading: 1.8;
+  --typeset-flow: 1.5em;
+}
+
+/* Docs preset - tighter for technical documentation */
+.typeset-docs {
+  --typeset-size: 0.9375rem;
+  --typeset-leading: 1.7;
+  --typeset-flow: 1.25em;
+}
+
+/* Compact preset - for chat or tight spaces */
+.typeset-compact {
+  --typeset-size: 0.875rem;
+  --typeset-leading: 1.6;
+  --typeset-flow: 1em;
+}
+
+/* Reading preset - larger, more spacious */
+.typeset-reading {
+  --typeset-size: 1.125rem;
+  --typeset-leading: 1.9;
+  --typeset-flow: 2em;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .dark .typeset {
+    --typeset-leading: 1.85;
+  }
+}

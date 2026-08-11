@@ -29,6 +29,7 @@ export function ThemeToggle({
       className={cn("group/toggle extend-touch-target size-8", className)}
       onClick={toggleTheme}
     >
+      {/** biome-ignore lint/a11y/noSvgWithoutTitle: <svg> */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -59,6 +60,7 @@ export function DarkModeScript() {
     <Script
       id="dark-mode-listener"
       strategy="beforeInteractive"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: <>
       dangerouslySetInnerHTML={{
         __html: `
             (function() {

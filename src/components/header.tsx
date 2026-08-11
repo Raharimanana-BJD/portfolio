@@ -8,18 +8,18 @@ import { Button } from "./ui/button";
 export const Header = () => {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 w-full z-50 bg-inherit">
-      <div className="container px-0 max-md:px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-inherit">
+      <div className="container flex items-center justify-between px-0 py-4 max-md:px-6">
         <Link href={"/"} className="flex items-center justify-center gap-2">
-          <span className="bg-black text-white px-2 py-1 font-semibold text-sm">
+          <span className="bg-black px-2 py-1 font-semibold text-sm text-white">
             Br
           </span>
-          <h1 className="text-primary hidden md:block text-lg font-semibold">
+          <h1 className="hidden font-semibold text-lg text-primary md:block">
             Braharim
           </h1>
         </Link>
 
-        <div className="flex gap-2 md:gap-4 items-center justify-center">
+        <div className="flex items-center justify-center gap-2 md:gap-4">
           {pathname === "/blog" ? (
             <Link href={"/"} className="text-primary">
               /Accueil
