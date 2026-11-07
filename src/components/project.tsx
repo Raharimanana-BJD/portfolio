@@ -98,7 +98,11 @@ export default function ProjectsSection({
         {/* Projects Grid */}
         <div className="grid gap-6">
           {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} featured={index === 0} />
+            <ProjectCard
+              key={project.title}
+              {...project}
+              featured={index === 0}
+            />
           ))}
         </div>
       </div>

@@ -6,8 +6,8 @@ import { Toaster } from "sonner";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 import { getPersonSchema } from "@/lib/schema";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -93,8 +93,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Braharim" />
         <script
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, "<" escaped below
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getPersonSchema()),
+            __html: JSON.stringify(getPersonSchema()).replace(/</g, "\\u003c"),
           }}
         />
       </head>

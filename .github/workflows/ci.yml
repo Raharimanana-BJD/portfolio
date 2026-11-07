@@ -23,7 +23,7 @@ jobs:
         run: bun install --frozen-lockfile
       
       - name: Run Biome check
-        run: bun run lint
+        run: bunx biome check ./src
       
       - name: Type check
         run: bunx tsc --noEmit

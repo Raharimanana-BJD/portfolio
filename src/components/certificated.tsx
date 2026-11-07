@@ -75,8 +75,8 @@ export default function AcademicSection({
 
         {/* Certificates Grid */}
         <div className="flex flex-col gap-6">
-          {certificates.map((cert, index) => (
-            <CertificateCard key={index} {...cert} />
+          {certificates.map((cert) => (
+            <CertificateCard key={`${cert.title}-${cert.issuer}`} {...cert} />
           ))}
         </div>
       </div>

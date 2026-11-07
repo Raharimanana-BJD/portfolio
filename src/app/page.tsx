@@ -8,8 +8,6 @@ import {
   ExternalLink,
   File,
   GraduationCap,
-  Icon,
-  icons,
   Mail,
   MapPin,
   Newspaper,
@@ -155,12 +153,13 @@ function SectionHeading({
 }) {
   return (
     <div className="mb-8 space-y-2">
-      <p className="font-mono text-xs tracking-wide text-primary">
-        // {eyebrow}
+      <p className="font-mono text-primary text-xs tracking-wide">
+        {"// "}
+        {eyebrow}
       </p>
-      <h2 className="text-xl font-bold text-foreground">{title}</h2>
+      <h2 className="font-bold text-foreground text-xl">{title}</h2>
       {subtitle && (
-        <p className="max-w-2xl text-sm text-muted-foreground">{subtitle}</p>
+        <p className="max-w-2xl text-muted-foreground text-sm">{subtitle}</p>
       )}
     </div>
   );
@@ -189,19 +188,19 @@ function HeroPage({
 }: HeroPageProps) {
   return (
     <section className="mt-0 md:mt-16">
-      <div className="flex items-start flex-col md:flex-row gap-2">
-        <div className=" hidden md:block h-52 w-62 overflow-hidden border-4 border-secondary bg-linear-to-tl from-white to-black/25 dark:to-background relative">
+      <div className="flex flex-col items-start gap-2 md:flex-row">
+        <div className="relative hidden h-52 w-62 overflow-hidden border-4 border-secondary bg-linear-to-tl from-white to-black/25 md:block dark:to-background">
           <Image
             src={coverImage}
             alt={`Profile image`}
             height={200}
             width={300}
             loading="eager"
-            className="object-cover mt-3"
+            className="mt-3 object-cover"
           />
         </div>
-        <div className="relative block md:hidden h-54 md:h-64 w-full overflow-hidden bg-linear-to-tl from-white to-background/25 dark:to-background">
-          <div className="relative left-1/2 max-sm:left-1/4 top-0 h-full aspect-208/200">
+        <div className="relative block h-54 w-full overflow-hidden bg-linear-to-tl from-white to-background/25 md:hidden md:h-64 dark:to-background">
+          <div className="relative top-0 left-1/2 aspect-208/200 h-full max-sm:left-1/4">
             <Image
               src={coverImage}
               alt="Cover image"
@@ -209,22 +208,17 @@ function HeroPage({
               height={300}
               priority
               loading="eager"
-              className="bottom-0 max-md:-bottom-8 absolute right-0"
+              className="max-md:-bottom-8 absolute right-0 bottom-0"
             />
           </div>
         </div>
-        <div className="space-y-4 md:pt-0 p-6 w-full">
+        <div className="w-full space-y-4 p-6 md:pt-0">
           <Badge variant="outline">
             <Square className="mr-1 size-4" fill="currentColor" stroke="none" />
-            <span
-              className="truncate
-              "
-            >
-              {status}
-            </span>
+            <span className="truncate">{status}</span>
           </Badge>
-          <h1 className="text-3xl font-bold">{name}</h1>
-          <div className="flex items-center flex-wrap gap-2">
+          <h1 className="font-bold text-3xl">{name}</h1>
+          <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline">
               <Code className="mr-1 size-4" />
               {poste}
@@ -245,9 +239,9 @@ function HeroPage({
           <Button
             onClick={onResumeClick}
             variant="default"
-            className="max-md:w-full mt-2"
+            className="mt-2 max-md:w-full"
           >
-            <File className="w-4 h-4 mr-1" />
+            <File className="mr-1 h-4 w-4" />
             Télécharger le CV
           </Button>
         </div>
@@ -337,7 +331,7 @@ function ExperienceSection({
                     </span>
                   </h3>
                 </div>
-                <span className="font-mono text-xs text-muted-foreground">
+                <span className="font-mono text-muted-foreground text-xs">
                   {item.period}
                 </span>
               </div>
@@ -378,14 +372,14 @@ function ProjectCard({
     >
       <CardHeader>
         <div className="flex items-center gap-2">
-          <CardTitle className="text-xl font-semibold">{title}</CardTitle>
+          <CardTitle className="font-semibold text-xl">{title}</CardTitle>
           {featured && (
-            <Badge variant="outline" className="text-xs font-normal">
+            <Badge variant="outline" className="font-normal text-xs">
               À la une
             </Badge>
           )}
         </div>
-        <CardDescription className="leading-relaxed line-clamp-3">
+        <CardDescription className="line-clamp-3 leading-relaxed">
           {description}
         </CardDescription>
       </CardHeader>
@@ -476,7 +470,7 @@ function CertificateCard({
 }: CertificateCardProps) {
   return (
     <div className="flex flex-col gap-4 py-6 first:pt-0 sm:flex-row sm:gap-8">
-      <div className="flex shrink-0 items-start gap-2 font-mono text-sm text-muted-foreground sm:w-40">
+      <div className="flex shrink-0 items-start gap-2 font-mono text-muted-foreground text-sm sm:w-40">
         <Calendar className="h-4 w-4 shrink-0" />
         <span>{date}</span>
       </div>
@@ -485,7 +479,7 @@ function CertificateCard({
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3 className="font-semibold text-foreground">{title}</h3>
-            <p className="text-sm text-muted-foreground">{issuer}</p>
+            <p className="text-muted-foreground text-sm">{issuer}</p>
           </div>
           {icon}
         </div>
@@ -565,7 +559,7 @@ function BlogSection({
                 <h3 className="font-semibold text-foreground group-hover:text-primary">
                   {post.title}
                 </h3>
-                <p className="font-mono text-xs text-muted-foreground">
+                <p className="font-mono text-muted-foreground text-xs">
                   {post.date}
                 </p>
               </div>
