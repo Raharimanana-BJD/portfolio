@@ -43,16 +43,16 @@ Pour tester en local avant le déploiement:
 
 ```bash
 # Installer les dépendances
-npm ci
+bun install --frozen-lockfile
 
 # Vérifier le code
-npm run lint
+bun run lint
 
 # Build
-npm run build
+bun run build
 
 # Démarrer le serveur
-npm run start
+bun run start
 ```
 
 ## Variables d'environnement
